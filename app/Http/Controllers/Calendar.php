@@ -61,7 +61,7 @@ class Calendar extends Controller
     protected function showView($data) {
         $out = <<<OUT
 
-<h1>Welcom on Cart Calendar V18-1932</h1>
+<h1>Welcom on Cart Calendar V18-2000</h1>
 <h2>Please <a href="{$data['sign_in']}">SIGN IN</a></h2>
 
 OUT;
