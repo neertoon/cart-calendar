@@ -46,7 +46,12 @@ class Calendar extends Controller
             $results = $service->events->listEvents($calendarId, $optParams);
             $events = $results->getItems();
 
-            var_export($events);
+            $calendars = $service->calendarList->listCalendarList();
+            echo '<pre>';
+            var_export($calendars);
+            echo '</pre>';
+
+//            var_export($events);
         }
 
         $linkToSignIn  = 'https://accounts.google.com/o/oauth2/auth?scope=' . urlencode('https://www.googleapis.com/auth/calendar') . '&redirect_uri=' . urlencode($this->application_redirect_url) . '&response_type=code&client_id=' . self::APPLICATION_ID . '&access_type=online';
@@ -61,7 +66,7 @@ class Calendar extends Controller
     protected function showView($data) {
         $out = <<<OUT
 
-<h1>Welcom on Cart Calendar V18-2000</h1>
+<h1>Welcom on Cart Calendar V18-2032</h1>
 <h2>Please <a href="{$data['sign_in']}">SIGN IN</a></h2>
 
 OUT;
