@@ -33,6 +33,20 @@ class Calendar extends Controller
             $client->setAccessType('online');
             $cred = $client->fetchAccessTokenWithAuthCode($_GET['code']);
             file_put_contents('server_token.txt', var_export($cred, true));
+
+            $service = new \Google_Service_Calendar($client);
+            // Print the next 10 events on the user's calendar.
+            $calendarId = 'primary';
+            $optParams = array(
+                'maxResults' => 10,
+                'orderBy' => 'startTime',
+                'singleEvents' => true,
+                'timeMin' => date('c'),
+            );
+            $results = $service->events->listEvents($calendarId, $optParams);
+            $events = $results->getItems();
+
+            var_export($events);
         }
 
         $linkToSignIn  = 'https://accounts.google.com/o/oauth2/auth?scope=' . urlencode('https://www.googleapis.com/auth/calendar') . '&redirect_uri=' . urlencode($this->application_redirect_url) . '&response_type=code&client_id=' . self::APPLICATION_ID . '&access_type=online';
