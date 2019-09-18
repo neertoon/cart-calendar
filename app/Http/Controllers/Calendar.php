@@ -10,6 +10,7 @@ class Calendar extends Controller
     private $application_redirect_url;
     public function __construct() {
         $this->application_redirect_url = 'http://'.$_SERVER['HTTP_HOST'].'/server.php';
+        //test
 //        $this->application_redirect_url = 'server.php';
     }
 
