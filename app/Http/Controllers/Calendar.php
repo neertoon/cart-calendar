@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Services\Wydruk\GeneratorDom;
 use App\User;
 use App\Http\Controllers\Controller;
 
@@ -61,6 +62,19 @@ class Calendar extends Controller
         ];
 
         $this->showView($data);
+    }
+
+    public function test() {
+        echo 'TEST';
+
+        $dane = [
+            ['zmienna' => 'sdfds', 'pole1' => 'taki tekst', 'pole2' => 'inny gosciu'],
+            ['zmienna' => '', 'pole1' => 'koelny', 'pole2' => 'wiersz'],
+        ];
+
+        $wydruk = new GeneratorDom();
+        $wydruk->ustawNazweWyjsciowegoPliku('szablon_out.odt');
+        return $wydruk->generuj($dane, 'szablon.odt');
     }
 
     protected function showView($data) {

@@ -18,3 +18,5 @@
 //Route::get('user/{id}', 'Calendar@index');
 
 Route::get('/', 'Calendar@index');
+
+Route::get('/test', 'Calendar@test');
