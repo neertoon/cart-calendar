@@ -76,7 +76,7 @@ class Calendar extends Controller
 //        $wydruk->ustawNazweWyjsciowegoPliku('szablon_out.odt');
 //        return $wydruk->generuj($dane, 'szablon.odt');
 
-        echo view('welcome', ['name' => 'James']);
+        echo view('login', ['name' => 'James']);
     }
 
     protected function showView($data) {
