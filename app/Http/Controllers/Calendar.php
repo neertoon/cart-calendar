@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Services\Wydruk\GeneratorDom;
 use App\User;
 use App\Http\Controllers\Controller;
+use Illuminate\Routing\Route;
 
 class Calendar extends Controller
 {
@@ -65,16 +66,17 @@ class Calendar extends Controller
     }
 
     public function test() {
-        echo 'TEST';
 
         $dane = [
             ['zmienna' => 'sdfds', 'pole1' => 'taki tekst', 'pole2' => 'inny gosciu'],
             ['zmienna' => '', 'pole1' => 'koelny', 'pole2' => 'wiersz'],
         ];
 
-        $wydruk = new GeneratorDom();
-        $wydruk->ustawNazweWyjsciowegoPliku('szablon_out.odt');
-        return $wydruk->generuj($dane, 'szablon.odt');
+//        $wydruk = new GeneratorDom();
+//        $wydruk->ustawNazweWyjsciowegoPliku('szablon_out.odt');
+//        return $wydruk->generuj($dane, 'szablon.odt');
+
+        echo view('welcome', ['name' => 'James']);
     }
 
     protected function showView($data) {
