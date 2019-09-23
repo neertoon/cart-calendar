@@ -223,7 +223,7 @@ class Calendar extends Controller
         $wydruk->ustawNazweWyjsciowegoPliku($filename);
         $wydruk->generuj($data, 'Szablony/szablon.skoczow.zawisle.odt');
 
-        return $filename;
+        return 'Upload/'.$filename.'.odt';
     }
 
     public function testgen() {
