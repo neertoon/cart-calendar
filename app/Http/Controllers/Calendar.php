@@ -59,18 +59,12 @@ class Calendar extends Controller
         $events = $results->getItems();
 
         $calendars = $service->calendarList->listCalendarList();
-        echo '<pre>';
+//        echo '<pre>';
 //            var_export($calendars);
-        var_export($events);
-        echo '</pre>';
+//        var_export($events);
+//        echo '</pre>';
 
-        $linkToSignIn  = 'https://accounts.google.com/o/oauth2/auth?scope=' . urlencode('https://www.googleapis.com/auth/calendar') . '&redirect_uri=' . urlencode($this->application_redirect_url) . '&response_type=code&client_id=' . self::APPLICATION_ID . '&access_type=online';
-
-        $data = [
-            'sign_in' => $linkToSignIn,
-        ];
-
-        $this->showView($data);
+        echo view('welcome', []);
     }
 
     public function test() {
