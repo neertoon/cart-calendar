@@ -96,11 +96,11 @@
             <div class="col-sm-12 card month">
                 <div class="row">
                 <div class="col-sm-12 col-md-6" style="text-align: center;"><span style="font-size: 24px; font-weight: bold">Miesiąc</span></div>
-                <div class="col-sm-12 col-md-6" style="text-align: center;"><input class="datepicker" data-date-format="mm/dd/yyyy" value="{{$monthYearNow}}"></div>
+                <div class="col-sm-12 col-md-6" style="text-align: center;"><input id="datepicker-val" class="datepicker" data-date-format="mm/dd/yyyy" value="{{$monthYearNow}}"></div>
                 </div>
             </div>
             <div class="card">
-                <button type="button" class="btn btn-primary">Generuj druk</button>
+                <a type="button" class="btn btn-primary" href="/index.php/download">Generuj druk</a>
             </div>
             <div class="card">
                 <a type="button" class="btn btn-primary" href="/index.php/logout" style="color: white">Wyloguj</a>
@@ -114,5 +114,10 @@
         format: "mm-yyyy",
         startView: "months",
         minViewMode: "months"
+    });
+
+    $('.datepicker').datepicker().on('changeDate', function (ev) {
+        console.log($('#datepicker-val').val());
+        document.cookie = "month_year=11-2019";
     });
 </script>

@@ -79,6 +79,14 @@ class Calendar extends Controller
         echo view('welcome', ['monthYearNow' => $this->getStartDateTimeToGenerate()]);
     }
 
+    public function generateAndDownload() {
+        var_export($_SERVER);
+
+        var_export($_ENV);
+
+        var_export($_COOKIE);
+    }
+
     public function prepareDataTab($eventsObj) {
         $events = [];
         $shifts = [];
