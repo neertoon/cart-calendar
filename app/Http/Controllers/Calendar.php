@@ -98,7 +98,7 @@ OUT;
     }
 
     protected function getConfig() {
-        $json = '{"web":{"client_id":"973852827368-4981aoak1r7car10lskp4jau4bm61khv.apps.googleusercontent.com","project_id":"cart-calendar-253012","auth_uri":"https://accounts.google.com/o/oauth2/auth","token_uri":"https://oauth2.googleapis.com/token","auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs","client_secret":"WchllqHP2kBNn1Gvqb82DZ6f","redirect_uris":["http://cart-calendar.azurewebsites.net/server.php"]}}';
+        $json = '{"web":{"client_id":"973852827368-4981aoak1r7car10lskp4jau4bm61khv.apps.googleusercontent.com","project_id":"cart-calendar-253012","auth_uri":"https://accounts.google.com/o/oauth2/auth","token_uri":"https://oauth2.googleapis.com/token","auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs","client_secret":"WchllqHP2kBNn1Gvqb82DZ6f","redirect_uris":["http://cart-calendar.azurewebsites.net/server.php","http://cart-calendar.azurewebsites.net/cart","http://cart-calendar.azurewebsites.net/index.php/cart"]}}';
         return json_decode($json, true);
     }
 }
