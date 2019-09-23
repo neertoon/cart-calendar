@@ -51,7 +51,7 @@ class Calendar extends Controller
         }
 
         $monthYearFilter = $this->getStartDateTimeToGenerate();
-        $_COOKIE['month_year'] = $monthYearFilter;
+        setcookie('month_year', $monthYearFilter, 3600, '/');
 
 
 

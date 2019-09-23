@@ -118,6 +118,6 @@
 
     $('.datepicker').datepicker().on('changeDate', function (ev) {
         var monthYear = $('#datepicker-val').val();
-        document.cookie = "month_year="+monthYear;
+        document.cookie = "month_year="+monthYear+';max-age=3600;path=/';
     });
 </script>
