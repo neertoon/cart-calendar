@@ -117,7 +117,7 @@
     });
 
     $('.datepicker').datepicker().on('changeDate', function (ev) {
-        console.log($('#datepicker-val').val());
-        document.cookie = "month_year=11-2019";
+        var monthYear = $('#datepicker-val').val();
+        document.cookie = "month_year="+monthYear;
     });
 </script>

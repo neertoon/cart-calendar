@@ -51,6 +51,24 @@ class Calendar extends Controller
         }
 
         $monthYearFilter = $this->getStartDateTimeToGenerate();
+        $_COOKIE['month_year'] = $monthYearFilter;
+
+
+
+//        $data = $this->prepareDataTab($events);
+
+//        $this->generateOdt($data);
+
+//        $calendars = $service->calendarList->listCalendarList();
+
+        echo view('welcome', ['monthYearNow' => $this->getStartDateTimeToGenerate()]);
+    }
+
+    public function getEvents() {
+        $googleClient = new CalendarClient();
+        $client = $googleClient->get();
+
+        $monthYearFilter = $_COOKIE['month_year'];
 
         list($dateStart, $dateEnd) = $this->getDateToFilter($monthYearFilter);
 
@@ -69,22 +87,38 @@ class Calendar extends Controller
         $events = $results->getItems();
 
         file_put_contents('events_data.txt', var_export($events, true));
-
-        $data = $this->prepareDataTab($events);
-
-        $this->generateOdt($data);
-
-        $calendars = $service->calendarList->listCalendarList();
-
-        echo view('welcome', ['monthYearNow' => $this->getStartDateTimeToGenerate()]);
     }
 
     public function generateAndDownload() {
-        var_export($_SERVER);
+        $events = $this->getEvents();
 
-        var_export($_ENV);
+        $data = $this->prepareDataTab($events);
 
-        var_export($_COOKIE);
+        $plik = $this->generateOdt($data);
+
+        if (!file_exists($plik)) {
+            throw new \Exception('Plik '.$plik.' nie istnieje');
+            exit;
+        }
+
+        header('Content-Description: File Transfer');
+        header('Content-Type: application/octet-stream');
+        header('Content-Disposition: attachment; filename='.basename($plik));
+        header('Content-Transfer-Encoding: binary');
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate');
+        header('Pragma: public');
+        header('Content-Length: ' . filesize($plik));
+        ob_clean();
+        flush();
+        readfile($plik);
+        exit;
+
+//        var_export($_SERVER);
+
+//        var_export($_ENV);
+
+//        var_export($_COOKIE);
 
         //test test test
     }
@@ -185,7 +219,9 @@ class Calendar extends Controller
         $filename = md5(time());
         $wydruk = new GeneratorDom();
         $wydruk->ustawNazweWyjsciowegoPliku($filename);
-        return $wydruk->generuj($data, 'Szablony/szablon.skoczow.zawisle.odt');
+        $wydruk->generuj($data, 'Szablony/szablon.skoczow.zawisle.odt');
+
+        return $filename;
     }
 
     public function testgen() {

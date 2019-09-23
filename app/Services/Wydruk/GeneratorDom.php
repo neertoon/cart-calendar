@@ -68,10 +68,6 @@ class GeneratorDom
 
             $this->wydruk = $this->analizujDOM();
 
-            echo "PO GEN\n";
-
-            echo $this->wydruk;
-
             return $this->zipper->stworzOdt($this->wydruk, 'Upload');
         } catch (\Exception $blad){
             echo $blad->getMessage();
@@ -85,7 +81,7 @@ class GeneratorDom
     	}
 
     	$zbiorTitle = $htmlParse->getElementsByTagName("body");
-    	var_export($zbiorTitle);
+
     	$office = $zbiorTitle->item(0);
     	$this->analizujWezlyPotomne($office);
 
