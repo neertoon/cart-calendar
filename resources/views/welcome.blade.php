@@ -96,7 +96,7 @@
             <div class="col-sm-12 card month">
                 <div class="row">
                 <div class="col-sm-12 col-md-6" style="text-align: center;"><span style="font-size: 24px; font-weight: bold">Miesiąc</span></div>
-                <div class="col-sm-12 col-md-6" style="text-align: center;"><input class="datepicker" data-date-format="mm/dd/yyyy" value="11-2019"></div>
+                <div class="col-sm-12 col-md-6" style="text-align: center;"><input class="datepicker" data-date-format="mm/dd/yyyy" value="{{$monthYearNow}}"></div>
                 </div>
             </div>
             <div class="card">

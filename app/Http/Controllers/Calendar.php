@@ -73,7 +73,7 @@ class Calendar extends Controller
 //        var_export($events);
 //        echo '</pre>';
 
-        echo view('welcome', []);
+        echo view('welcome', ['monthYearNow' => $this->getStartDateTimeToGenerate()]);
     }
 
     public function prepareDataTab($events) {
@@ -88,6 +88,25 @@ class Calendar extends Controller
 
             echo $title.' '.$startDateTime.' '.$endDateTime."</br>";
         }
+    }
+
+    public function getStartDateTimeToGenerate() {
+        $month = date("m");
+        $day = date("d");
+        $year = date("Y");
+
+        if ($day >= 15) {
+            $newMonth = $month + 2;
+        } else {
+            $newMonth = $month + 1;
+        }
+
+        if ($newMonth > 12) {
+            $newMonth = $newMonth - 12;
+            $year++;
+        }
+
+        return $newMonth.'-'.$year;
     }
 
     public function test() {
