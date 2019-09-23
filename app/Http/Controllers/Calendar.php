@@ -14,7 +14,7 @@ class Calendar extends Controller
     public function __construct() {
         session_start();
         $this->application_redirect_url = 'http://'.$_SERVER['HTTP_HOST'].'/index.php/cart';
-        //TEST? test test test test test test
+        //TEST? test test test test test test test
     }
 
     public function login() {
