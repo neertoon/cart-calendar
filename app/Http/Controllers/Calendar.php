@@ -18,7 +18,7 @@ class Calendar extends Controller
     }
 
     public function login() {
-        if (empty($_SESSION['code'])) {
+        if (empty($_SESSION['token'])) {
             $linkToSignIn  = 'https://accounts.google.com/o/oauth2/auth?scope=' . urlencode('https://www.googleapis.com/auth/calendar') . '&redirect_uri=' . urlencode($this->application_redirect_url) . '&response_type=code&client_id=' . self::APPLICATION_ID . '&access_type=online';
 
             echo view('login', ['link' => $linkToSignIn]);
@@ -38,12 +38,12 @@ class Calendar extends Controller
         $data = array_merge($_GET, $_POST);
         file_put_contents('server_data.txt', var_export($data, true));
 
-        if(!empty($_GET['code'])) {
-            $_SESSION['code'] = $_GET['code'];
-        }
-
         $googleClient = new CalendarClient();
-        $client = $googleClient->get();
+        if(!empty($_GET['code'])) {
+            $client = $googleClient->get($_GET['code']);
+        } else {
+            $client = $googleClient->get();
+        }
 
         $service = new \Google_Service_Calendar($client);
         // Print the next 10 events on the user's calendar.

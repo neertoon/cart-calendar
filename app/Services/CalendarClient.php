@@ -5,15 +5,20 @@ namespace App\Services;
 
 
 class CalendarClient {
-    public function get() {
-        $code = $_SESSION['code'];
+    public function get($code = '') {
 
         $client = new \Google_Client();
         $client->setApplicationName('cart-calendar-253012');
         $client->setScopes(\Google_Service_Calendar::CALENDAR);
         $client->setAuthConfig($this->getConfig());
         $client->setAccessType('online');
-        $cred = $client->fetchAccessTokenWithAuthCode($code);
+        if (!empty($code)) {
+            $cred = $client->fetchAccessTokenWithAuthCode($code);
+            $_SESSION['token'] = $cred;
+        } else {
+            $client->setAccessToken($_SESSION['token']);
+        }
+
         file_put_contents('server_token.txt', var_export($cred, true));
         return $client;
     }
