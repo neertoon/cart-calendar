@@ -11,7 +11,7 @@ class Calendar extends Controller
     const APPLICATION_ID = '973852827368-4981aoak1r7car10lskp4jau4bm61khv.apps.googleusercontent.com';
     private $application_redirect_url;
     public function __construct() {
-        $this->application_redirect_url = 'http://'.$_SERVER['HTTP_HOST'].'/cart';
+        $this->application_redirect_url = 'http://'.$_SERVER['HTTP_HOST'].'/index.php/cart';
 //        $this->application_redirect_url = 'server.php';
     }
 
