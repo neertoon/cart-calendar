@@ -51,7 +51,7 @@ class Calendar extends Controller
         }
 
         $monthYearFilter = $this->getStartDateTimeToGenerate();
-        setcookie('month_year', $monthYearFilter, 3600, '/');
+        setcookie('month_year', $monthYearFilter, time()+3600, '/');
 
 
 
@@ -87,6 +87,8 @@ class Calendar extends Controller
         $events = $results->getItems();
 
         file_put_contents('events_data.txt', var_export($events, true));
+
+        return $events;
     }
 
     public function generateAndDownload() {
