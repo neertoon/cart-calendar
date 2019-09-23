@@ -86,6 +86,7 @@ class Calendar extends Controller
 
         var_export($_COOKIE);
 
+        //test
     }
 
     public function prepareDataTab($eventsObj) {
