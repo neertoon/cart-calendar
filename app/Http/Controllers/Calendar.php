@@ -63,6 +63,10 @@ class Calendar extends Controller
         $results = $service->events->listEvents($calendarId, $optParams);
         $events = $results->getItems();
 
+        file_put_contents('events_data.txt', var_export($events, true));
+
+        $this->prepareDataTab($events);
+
         $calendars = $service->calendarList->listCalendarList();
 //        echo '<pre>';
 //            var_export($calendars);
@@ -70,6 +74,20 @@ class Calendar extends Controller
 //        echo '</pre>';
 
         echo view('welcome', []);
+    }
+
+    public function prepareDataTab($events) {
+        /** @var \Google_Service_Calendar_Event $event */
+        foreach ($events as $event) {
+            $start = $event->getStart();
+            $end = $event->getEnd();
+            $title = $event->summary;
+
+            $startDateTime = $start->getDateTime();
+            $endDateTime = $end->getDateTime();
+
+            echo $title.' '.$startDateTime.' '.$endDateTime."</br>";
+        }
     }
 
     public function test() {

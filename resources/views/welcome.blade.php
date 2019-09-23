@@ -83,7 +83,7 @@
                 padding: 10px;
             }
 
-            button {
+            button, a {
                 font-size: 20px !important;
             }
         </style>
@@ -103,7 +103,7 @@
                 <button type="button" class="btn btn-primary">Generuj druk</button>
             </div>
             <div class="card">
-                <a type="button" class="btn btn-primary" herf="/index.php/logout">Wyloguj</a>
+                <a type="button" class="btn btn-primary" href="/index.php/logout" style="color: white">Wyloguj</a>
             </div>
         </div>
 
