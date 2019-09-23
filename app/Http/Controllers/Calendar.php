@@ -27,6 +27,11 @@ class Calendar extends Controller
         }
     }
 
+    public function logout() {
+        $_SESSION['token'] = null;
+        $this->login();
+    }
+
     /**
      * Show the profile for the given user.
      *

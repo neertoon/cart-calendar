@@ -21,4 +21,6 @@ Route::get('/', 'Calendar@login');
 
 Route::get('/cart', 'Calendar@index');
 
+Route::get('/logout', 'Calendar@logout');
+
 Route::get('/test', 'Calendar@test');
