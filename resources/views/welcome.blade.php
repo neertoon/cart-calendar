@@ -102,6 +102,9 @@
             <div class="card">
                 <button type="button" class="btn btn-primary">Generuj druk</button>
             </div>
+            <div class="card">
+                <a type="button" class="btn btn-primary" herf="/index.php/logout">Wyloguj</a>
+            </div>
         </div>
 
     </body>
