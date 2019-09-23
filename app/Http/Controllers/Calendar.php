@@ -50,14 +50,19 @@ class Calendar extends Controller
             $client = $googleClient->get();
         }
 
+        $monthYearFilter = $this->getStartDateTimeToGenerate();
+
+        list($dateStart, $dateEnd) = $this->getDateToFilter($monthYearFilter);
+
         $service = new \Google_Service_Calendar($client);
         // Print the next 10 events on the user's calendar.
         $calendarId = 'primary';
         $optParams = array(
-            'maxResults' => 10,
+            'maxResults' => 100,
             'orderBy' => 'startTime',
             'singleEvents' => true,
-            'timeMin' => date('c'),
+            'timeMin' => $dateStart,
+            'timeMax' => $dateEnd,
         );
         //timeMax date('c') tu będzie zabawa, bo bęzdie trzeba obliczyć początek tygodnia, w którym jest pierwszy dzień miesiąca i koniec miesiąca
         $results = $service->events->listEvents($calendarId, $optParams);
@@ -65,29 +70,86 @@ class Calendar extends Controller
 
         file_put_contents('events_data.txt', var_export($events, true));
 
-        $this->prepareDataTab($events);
+        $data = $this->prepareDataTab($events);
+
+        $this->generateOdt($data);
 
         $calendars = $service->calendarList->listCalendarList();
-//        echo '<pre>';
-//            var_export($calendars);
-//        var_export($events);
-//        echo '</pre>';
 
         echo view('welcome', ['monthYearNow' => $this->getStartDateTimeToGenerate()]);
     }
 
-    public function prepareDataTab($events) {
+    public function prepareDataTab($eventsObj) {
+        $events = [];
+        $shifts = [];
         /** @var \Google_Service_Calendar_Event $event */
-        foreach ($events as $event) {
+        foreach ($eventsObj as $event) {
             $start = $event->getStart();
             $end = $event->getEnd();
             $title = $event->summary;
 
-            $startDateTime = $start->getDateTime();
-            $endDateTime = $end->getDateTime();
+            $events[] = [
+                'title' => $title,
+                'start' => $start,
+                'end' => $end,
+            ];
 
-            echo $title.' '.$startDateTime.' '.$endDateTime."</br>";
+            $startTime = strtotime($start);
+            $shift = date('H-i', $startTime);
+            $shifts[$shift] = $shift;
+
+            $endTime = strtotime($end);
+            $shift = date('H-i', $endTime);
+            $shifts[$shift] = $shift;
         }
+
+        $ilZmian = count($shifts) - 1;
+
+        $zmianyKeys = array_keys($shifts);
+        $rowHeader = [];
+        for ($i = 1; $i <= $ilZmian; $i++) {
+            list($godzina, $minuta) = explode('-', $shifts[$zmianyKeys[$i - 1]]);
+            $rowHeader['zmiana'.$i.'_g_s'] = $godzina;
+            $rowHeader['zmiana'.$i.'_m_s'] = $minuta;
+
+            list($godzina, $minuta) = explode('-', $shifts[$zmianyKeys[$i]]);
+            $rowHeader['zmiana'.$i.'_g_k'] = $godzina;
+            $rowHeader['zmiana'.$i.'_m_k'] = $minuta;
+        }
+        $rowHeader['miesiac'] = 'listopad';
+        $rowHeader['rok'] = '2019';
+        $rowHeaderKey = array_keys($rowHeader);
+        $emptyRowHeader = array_fill_keys ($rowHeaderKey, '');
+
+        $data = [];
+        foreach ($events as $event) {
+
+            $startTime = strtotime($event['start']);
+            $shift = date('H-i', $startTime);
+            $numerZmiany = array_search($shift, $zmianyKeys);
+            $numerZmiany++;
+
+            $shiftDate = date("Y-m-d", $startTime);
+
+            if (empty($data[$shiftDate])) {
+                $data[$shiftDate]['zmiana_data'] = date("l", $startTime).' '.date("d", $startTime).' '.date("F", $startTime).' '.date("Y", $startTime);
+            }
+
+            $data[$shiftDate]['zmiana'.$numerZmiany.'_osoby'] = $event['title'];
+
+        }
+
+        $data = array_values($data);
+
+        foreach ($data as $key => $values) {
+            if ($key == 0) {
+                $data[$key] = array_merge($values, $rowHeader);
+            } else {
+                $data[$key] = array_merge($values, $emptyRowHeader);
+            }
+        }
+
+        return $data;
     }
 
     public function getStartDateTimeToGenerate() {
@@ -109,7 +171,14 @@ class Calendar extends Controller
         return $newMonth.'-'.$year;
     }
 
-    public function generateOdt() {
+    public function generateOdt($data) {
+        $filename = md5(time());
+        $wydruk = new GeneratorDom();
+        $wydruk->ustawNazweWyjsciowegoPliku($filename);
+        return $wydruk->generuj($data, 'Szablony/szablon.skoczow.zawisle.odt');
+    }
+
+    public function mockData() {
         $dane = [
             [
                 'miesiac' => 'listopad',
@@ -221,10 +290,27 @@ class Calendar extends Controller
                 'zmiana8_osoby' => 'Druku',
             ],
         ];
-        $filename = md5(time());
-        $wydruk = new GeneratorDom();
-        $wydruk->ustawNazweWyjsciowegoPliku($filename);
-        return $wydruk->generuj($dane, 'Szablony/szablon.skoczow.zawisle.odt');
+
+        return $dane;
+    }
+
+    public function getDateToFilter($monthYear) {
+        list($month, $year) = explode('-', $monthYear);
+        $nextMont = $month == 12 ? 1 : $month + 1;
+        $nextYear = $month == 12 ? $year + 1 : $year;
+
+        $month = str_pad($month, 2, "0", STR_PAD_LEFT);
+        $nextMont = str_pad($nextMont, 2, "0", STR_PAD_LEFT);
+
+        $start = "01-".$month."-".$year;
+        $timeStart = strtotime($start);
+        $isoStart = date("c", $timeStart);
+
+        $end = "01-".$nextMont."-".$nextYear;
+        $timeEnd = strtotime($end);
+        $isoEnd = date("c", $timeEnd);
+
+        return [$isoStart, $isoEnd];
     }
 
     public function test() {
