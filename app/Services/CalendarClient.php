@@ -19,7 +19,7 @@ class CalendarClient {
             $client->setAccessToken($_SESSION['token']);
         }
 
-        file_put_contents('server_token.txt', var_export($cred, true));
+        file_put_contents('server_token.txt', var_export($_SESSION['token'], true));
         return $client;
     }
 
