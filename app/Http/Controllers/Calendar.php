@@ -16,7 +16,9 @@ class Calendar extends Controller
     }
 
     public function login() {
-        echo view('login', []);
+        $linkToSignIn  = 'https://accounts.google.com/o/oauth2/auth?scope=' . urlencode('https://www.googleapis.com/auth/calendar') . '&redirect_uri=' . urlencode($this->application_redirect_url) . '&response_type=code&client_id=' . self::APPLICATION_ID . '&access_type=online';
+
+        echo view('login', ['link' => $linkToSignIn]);
     }
 
     /**

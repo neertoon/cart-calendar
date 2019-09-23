@@ -94,7 +94,7 @@
         </div>
         <div class="container">
             <div class="col-sm-12 card" style="margin-top: 10px">
-                <button type="button" class="btn btn-primary">Zaloguj się</button>
+                <a type="button" class="btn btn-primary" href="{{$link}}">Zaloguj się</a>
             </div>
         </div>
 
