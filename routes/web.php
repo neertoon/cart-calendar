@@ -17,6 +17,8 @@
 
 //Route::get('user/{id}', 'Calendar@index');
 
-Route::get('/', 'Calendar@index');
+Route::get('/', 'Calendar@login');
+
+Route::get('/cart', 'Calendar@index');
 
 Route::get('/test', 'Calendar@test');
