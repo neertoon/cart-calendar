@@ -111,7 +111,7 @@ class Calendar extends Controller
         header('Cache-Control: must-revalidate');
         header('Pragma: public');
         header('Content-Length: ' . filesize($plik));
-        ob_clean();
+        if (ob_get_length()) ob_clean();
         flush();
         readfile($plik);
         exit;
