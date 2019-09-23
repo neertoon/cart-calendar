@@ -49,7 +49,6 @@ class Zipper
             while (!feof($fp)) {
                 $content .= fread($fp, 2);
             }
-            echo $content;
 
             fclose($fp);
             file_put_contents('t',$content);
