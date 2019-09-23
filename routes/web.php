@@ -23,7 +23,7 @@ Route::get('/cart', 'Calendar@index');
 
 Route::get('/logout', 'Calendar@logout');
 
-Route::get('/test', 'Calendar@test');
+Route::get('/test', 'Calendar@testgen');
 
 Route::get('/generate', 'Calendar@generateOdt');
 

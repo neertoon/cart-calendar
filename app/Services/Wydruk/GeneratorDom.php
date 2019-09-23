@@ -185,6 +185,12 @@ class GeneratorDom
     		$poleSzukane = preg_replace('/(^|[^\$\.]+)('.$klucz.')([^a-zA-Z0-9_]*)/', '$1$$2$3', $poleSzukane);
     	}
     	$poleSzukane = empty($poleSzukane) ? '""' : $poleSzukane;
+
+        if (!empty($poleSzukane) && !strstr($poleSzukane, '$')) {
+            $kod .= '$'.$poleSzukane.' = ""; '."\r\n";
+            $poleSzukane = '$'.$poleSzukane;
+        }
+
     	$kod .= ' return ('.$poleSzukane.');';
 
     	return eval($kod);

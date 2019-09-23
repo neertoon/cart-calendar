@@ -188,6 +188,11 @@ class Calendar extends Controller
         return $wydruk->generuj($data, 'Szablony/szablon.skoczow.zawisle.odt');
     }
 
+    public function testgen() {
+        $dane = $this->mockData();
+        $this->generateOdt($dane);
+    }
+
     public function mockData() {
         $dane = [
             [
@@ -223,15 +228,15 @@ class Calendar extends Controller
                 'zmiana6_g_k' => '16',
                 'zmiana6_m_k' => '00',
 
-                'zmiana7_g_s' => '16',
-                'zmiana7_m_s' => '00',
-                'zmiana7_g_k' => '17',
-                'zmiana7_m_k' => '00',
-
-                'zmiana8_g_s' => '17',
-                'zmiana8_m_s' => '00',
-                'zmiana8_g_k' => '18',
-                'zmiana8_m_k' => '00',
+//                'zmiana7_g_s' => '16',
+//                'zmiana7_m_s' => '00',
+//                'zmiana7_g_k' => '17',
+//                'zmiana7_m_k' => '00',
+//
+//                'zmiana8_g_s' => '17',
+//                'zmiana8_m_s' => '00',
+//                'zmiana8_g_k' => '18',
+//                'zmiana8_m_k' => '00',
 
                 'zmiana_data' => 'sobota 01 września 2019',
 
@@ -241,8 +246,8 @@ class Calendar extends Controller
                 'zmiana4_osoby' => 'Gostek',
                 'zmiana5_osoby' => 'Taki',
                 'zmiana6_osoby' => 'Gosc',
-                'zmiana7_osoby' => 'Jestem',
-                'zmiana8_osoby' => 'Tutaj',
+//                'zmiana7_osoby' => 'Jestem',
+//                'zmiana8_osoby' => 'Tutaj',
             ],
 
             [
@@ -278,15 +283,15 @@ class Calendar extends Controller
                 'zmiana6_g_k' => '',
                 'zmiana6_m_k' => '',
 
-                'zmiana7_g_s' => '',
-                'zmiana7_m_s' => '',
-                'zmiana7_g_k' => '',
-                'zmiana7_m_k' => '',
-
-                'zmiana8_g_s' => '',
-                'zmiana8_m_s' => '',
-                'zmiana8_g_k' => '',
-                'zmiana8_m_k' => '',
+//                'zmiana7_g_s' => '',
+//                'zmiana7_m_s' => '',
+//                'zmiana7_g_k' => '',
+//                'zmiana7_m_k' => '',
+//
+//                'zmiana8_g_s' => '',
+//                'zmiana8_m_s' => '',
+//                'zmiana8_g_k' => '',
+//                'zmiana8_m_k' => '',
 
                 'zmiana_data' => 'niedziela 02 września 2019',
 
@@ -296,8 +301,8 @@ class Calendar extends Controller
                 'zmiana4_osoby' => 'Wiersz',
                 'zmiana5_osoby' => 'Z',
                 'zmiana6_osoby' => 'Danymi',
-                'zmiana7_osoby' => 'Do',
-                'zmiana8_osoby' => 'Druku',
+//                'zmiana7_osoby' => 'Do',
+//                'zmiana8_osoby' => 'Druku',
             ],
         ];
 
