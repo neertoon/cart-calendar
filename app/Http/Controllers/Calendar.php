@@ -94,8 +94,8 @@ class Calendar extends Controller
         $shifts = [];
         /** @var \Google_Service_Calendar_Event $event */
         foreach ($eventsObj as $event) {
-            $start = $event->getStart();
-            $end = $event->getEnd();
+            $start = $event->getStart()->getDateTime();
+            $end = $event->getEnd()->getDateTime();
             $title = $event->summary;
 
             $events[] = [
