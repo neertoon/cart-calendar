@@ -16,11 +16,19 @@ class Calendar extends Controller
         $this->application_redirect_url = 'http://'.$_SERVER['HTTP_HOST'].'/index.php/cart';
         $this->application_id = $_ENV['CALENDAR_APP_ID'];
         //TEST? test test test test test test test test test
+        /**
+         * Posprzątaj
+         * Refactor
+         * Polskie nazwy miesięcy oraz dni
+         * Laduj szablon w zależności od ilości zmian
+         * Upload nowego szablonu
+         * Pobranie już istniejącego szablonu
+         */
     }
 
     public function login() {
         if (empty($_SESSION['token'])) {
-            $linkToSignIn  = 'https://accounts.google.com/o/oauth2/auth?scope=' . urlencode('https://www.googleapis.com/auth/calendar') . '&redirect_uri=' . urlencode($this->application_redirect_url) . '&response_type=code&client_id=' . $this->application_id . '&access_type=online';
+            $linkToSignIn  = 'https://accounts.google.com/o/oauth2/auth?scope=' . urlencode('https://www.googleapis.com/auth/calendar').' '.urlencode('https://www.googleapis.com/auth/userinfo.profile') . '&redirect_uri=' . urlencode($this->application_redirect_url) . '&response_type=code&client_id=' . $this->application_id . '&access_type=online';
 
             echo view('login', ['link' => $linkToSignIn]);
         } else {
