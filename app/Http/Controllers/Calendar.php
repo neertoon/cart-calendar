@@ -9,17 +9,18 @@ use Illuminate\Routing\Route;
 
 class Calendar extends Controller
 {
-    const APPLICATION_ID = '973852827368-4981aoak1r7car10lskp4jau4bm61khv.apps.googleusercontent.com';
+    protected $application_id;
     private $application_redirect_url;
     public function __construct() {
         session_start();
         $this->application_redirect_url = 'http://'.$_SERVER['HTTP_HOST'].'/index.php/cart';
+        $this->application_id = $_ENV['CALENDAR_APP_ID'];
         //TEST? test test test test test test test test test
     }
 
     public function login() {
         if (empty($_SESSION['token'])) {
-            $linkToSignIn  = 'https://accounts.google.com/o/oauth2/auth?scope=' . urlencode('https://www.googleapis.com/auth/calendar') . '&redirect_uri=' . urlencode($this->application_redirect_url) . '&response_type=code&client_id=' . self::APPLICATION_ID . '&access_type=online';
+            $linkToSignIn  = 'https://accounts.google.com/o/oauth2/auth?scope=' . urlencode('https://www.googleapis.com/auth/calendar') . '&redirect_uri=' . urlencode($this->application_redirect_url) . '&response_type=code&client_id=' . $this->application_id . '&access_type=online';
 
             echo view('login', ['link' => $linkToSignIn]);
         } else {
@@ -115,14 +116,6 @@ class Calendar extends Controller
         flush();
         readfile($plik);
         exit;
-
-//        var_export($_SERVER);
-
-//        var_export($_ENV);
-
-//        var_export($_COOKIE);
-
-        //test test test
     }
 
     public function prepareDataTab($eventsObj) {
