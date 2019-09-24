@@ -22,6 +22,7 @@ class Calendar extends Controller
          * Refactor
          * Polskie nazwy miesięcy oraz dni
          * Laduj szablon w zależności od ilości zmian
+         * Szablon w zależności od nazwy maila - parametr email w rozkodowanym tokenie
          * Upload nowego szablonu
          * Pobranie już istniejącego szablonu
          */
