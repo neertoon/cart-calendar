@@ -9,7 +9,7 @@ class CalendarClient {
 
         $client = new \Google_Client();
         $client->setApplicationName($_ENV['CALENDAR_APP_NAME']);
-        $client->setScopes([\Google_Service_Calendar::CALENDAR, 'https://www.googleapis.com/auth/userinfo.profile']);
+        $client->setScopes([\Google_Service_Calendar::CALENDAR, 'https://www.googleapis.com/auth/userinfo.profile', 'email']);
         $client->setAuthConfig($this->getConfig());
         $client->setAccessType('online');
         if (!empty($code)) {

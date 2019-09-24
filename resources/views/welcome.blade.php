@@ -91,6 +91,7 @@
     <body>
         <div class="col-sm-12 header">
             <h1>Program wózka</h1>
+            <h6>{{$userName}}</h6>
         </div>
         <div class="container">
             <div class="col-sm-12 card month">

@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\CalendarClient;
+use App\Services\JwToken;
 use App\Services\Wydruk\GeneratorDom;
 use App\User;
 use App\Http\Controllers\Controller;
@@ -28,7 +29,7 @@ class Calendar extends Controller
 
     public function login() {
         if (empty($_SESSION['token'])) {
-            $linkToSignIn  = 'https://accounts.google.com/o/oauth2/auth?scope=' . urlencode('https://www.googleapis.com/auth/calendar').' '.urlencode('https://www.googleapis.com/auth/userinfo.profile') . '&redirect_uri=' . urlencode($this->application_redirect_url) . '&response_type=code&client_id=' . $this->application_id . '&access_type=online';
+            $linkToSignIn  = 'https://accounts.google.com/o/oauth2/auth?scope=' . urlencode('https://www.googleapis.com/auth/calendar').' '.urlencode('https://www.googleapis.com/auth/userinfo.profile') . ' email&redirect_uri=' . urlencode($this->application_redirect_url) . '&response_type=code&client_id=' . $this->application_id . '&access_type=online';
 
             echo view('login', ['link' => $linkToSignIn]);
         } else {
@@ -63,6 +64,8 @@ class Calendar extends Controller
         setcookie('month_year', $monthYearFilter, time()+3600, '/');
 
 
+        $userData = JwToken::getData($_SESSION['token']['id_token']);
+
 
 //        $data = $this->prepareDataTab($events);
 
@@ -70,7 +73,10 @@ class Calendar extends Controller
 
 //        $calendars = $service->calendarList->listCalendarList();
 
-        echo view('welcome', ['monthYearNow' => $this->getStartDateTimeToGenerate()]);
+        echo view('welcome', [
+            'monthYearNow' => $this->getStartDateTimeToGenerate(),
+            'userName' => $userData['name'],
+        ]);
     }
 
     public function getEvents() {
@@ -163,8 +169,10 @@ class Calendar extends Controller
             $rowHeader['zmiana'.$i.'_g_k'] = $godzina;
             $rowHeader['zmiana'.$i.'_m_k'] = $minuta;
         }
-        $rowHeader['miesiac'] = 'listopad';
-        $rowHeader['rok'] = '2019';
+        $firstEvent = $events[0];
+        $startTime = strtotime($firstEvent['start']);
+        $rowHeader['miesiac'] = $this->getMonthNameInPolish(date("n", $startTime));
+        $rowHeader['rok'] = date("Y", $startTime);
         $rowHeaderKey = array_keys($rowHeader);
         $emptyRowHeader = array_fill_keys ($rowHeaderKey, '');
 
@@ -179,7 +187,7 @@ class Calendar extends Controller
             $shiftDate = date("Y-m-d", $startTime);
 
             if (empty($data[$shiftDate])) {
-                $data[$shiftDate]['zmiana_data'] = date("l", $startTime).' '.date("d", $startTime).' '.date("F", $startTime).' '.date("Y", $startTime);
+                $data[$shiftDate]['zmiana_data'] = $this->getDayNameInPoland(date("N", $startTime)).' '.date("d", $startTime).' '.$this->getMonthNameInPolish(date("n", $startTime)).' '.date("Y", $startTime);
             }
 
             $data[$shiftDate]['zmiana'.$numerZmiany.'_osoby'] = $event['title'];
@@ -197,6 +205,40 @@ class Calendar extends Controller
         }
 
         return $data;
+    }
+
+    protected function getDayNameInPoland($dayNumber) {
+        $numberToDay = [
+            1 => 'Poniedziałek',
+            2 => 'Wtorek',
+            3 => 'Środa',
+            4 => 'Czwartek',
+            5 => 'Piątek',
+            6 => 'Sobota',
+            7 => 'Niedziela',
+        ];
+
+        return $numberToDay[$dayNumber];
+    }
+
+    protected function getMonthNameInPolish($monthNumber) {
+        $numberToMonth = [
+            1 => 'Stycznia',
+            2 => 'Lutego',
+            3 => 'Marca',
+            4 => 'Kwietnia',
+            5 => 'Maja',
+            6 => 'Czerwca',
+            7 => 'Lipca',
+            8 => 'Sierpnia',
+            9 => 'Września',
+            10 => 'Października',
+            11 => 'Listopada',
+            12 => 'Grudnia',
+        ];
+
+        return $numberToMonth[$monthNumber];
+
     }
 
     public function getStartDateTimeToGenerate() {
