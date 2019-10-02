@@ -99,4 +99,10 @@
         </div>
 
     </body>
+    <script>
+        var timezone_offset_minutes = new Date().getTimezoneOffset() * -1;
+        var date = new Date();
+        date.setTime(date.getTime() + (30 * 24 * 60 * 60 * 1000));
+        document.cookie = encodeURIComponent("TIMEZONE_OFFSET") + "=" + encodeURIComponent(timezone_offset_minutes) + "; expires=" + date.toGMTString() + "; path=/";
+    </script>
 </html>

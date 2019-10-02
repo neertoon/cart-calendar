@@ -142,6 +142,13 @@ class Calendar extends Controller
             $end = $event->getEnd()->getDateTime();
             $title = $event->summary;
 
+            $timezone = [
+                'timeZone' => $event->getEnd()->timeZone,
+                'getTimeZone' => $event->getEnd()->getTimeZone(),
+            ];
+
+            file_put_contents('event_timezone.txt', var_export($timezone, true));
+
             $events[] = [
                 'title' => $title,
                 'start' => $start,
@@ -172,7 +179,7 @@ class Calendar extends Controller
         }
         $firstEvent = $events[0];
         $startTime = strtotime($firstEvent['start']);
-        $rowHeader['miesiac'] = $this->getMonthNameInPolish(date("n", $startTime));
+        $rowHeader['miesiac'] = strtolower($this->getMonthNameInPolishFirstCase(date("n", $startTime)));
         $rowHeader['rok'] = date("Y", $startTime);
         $rowHeaderKey = array_keys($rowHeader);
         $emptyRowHeader = array_fill_keys ($rowHeaderKey, '');
@@ -236,6 +243,26 @@ class Calendar extends Controller
             10 => 'Października',
             11 => 'Listopada',
             12 => 'Grudnia',
+        ];
+
+        return $numberToMonth[$monthNumber];
+
+    }
+
+    protected function getMonthNameInPolishFirstCase($monthNumber) {
+        $numberToMonth = [
+            1 => 'Styczeń',
+            2 => 'Luty',
+            3 => 'Marzec',
+            4 => 'Kwiecień',
+            5 => 'Maj',
+            6 => 'Czerwiec',
+            7 => 'Lipiec',
+            8 => 'Sierpień',
+            9 => 'Wrzesień',
+            10 => 'Październik',
+            11 => 'Listopad',
+            12 => 'Grudzień',
         ];
 
         return $numberToMonth[$monthNumber];
