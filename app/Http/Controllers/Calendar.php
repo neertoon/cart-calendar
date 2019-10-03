@@ -200,7 +200,7 @@ class Calendar extends Controller
             $shiftDate = date("Y-m-d", $startTime);
 
             if (empty($data[$shiftDate])) {
-                $data[$shiftDate]['zmiana_data'] = $this->getDayNameInPoland(date("N", $startTime)).' '.date("d", $startTime).' '.$this->getMonthNameInPolish(date("n", $startTime)).' '.date("Y", $startTime);
+                $data[$shiftDate]['zmiana_data'] = $this->getDayNameInPoland(date("N", $startTime)).' '.date("d", $startTime)."\r\n".$this->getMonthNameInPolish(date("n", $startTime)).' '.date("Y", $startTime);
             }
 
             $data[$shiftDate]['zmiana'.$numerZmiany.'_osoby'] = $event['title'];
