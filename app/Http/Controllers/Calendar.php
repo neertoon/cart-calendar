@@ -11,6 +11,10 @@ use Illuminate\Routing\Route;
 class Calendar extends Controller
 {
     protected $application_id;
+    /**
+     * @var int
+     */
+    protected $iloscZmian;
     private $application_redirect_url;
     public function __construct() {
         session_start();
@@ -165,16 +169,17 @@ class Calendar extends Controller
         }
 
         $ilZmian = count($shifts) - 1;
+        $this->iloscZmian = $ilZmian;
 
         $zmianyKeys = array_keys($shifts);
         $rowHeader = [];
         for ($i = 1; $i <= $ilZmian; $i++) {
             list($godzina, $minuta) = explode('-', $shifts[$zmianyKeys[$i - 1]]);
-            $rowHeader['zmiana'.$i.'_g_s'] = $godzina;
+            $rowHeader['zmiana'.$i.'_g_s'] = $godzina + 1;
             $rowHeader['zmiana'.$i.'_m_s'] = $minuta;
 
             list($godzina, $minuta) = explode('-', $shifts[$zmianyKeys[$i]]);
-            $rowHeader['zmiana'.$i.'_g_k'] = $godzina;
+            $rowHeader['zmiana'.$i.'_g_k'] = $godzina + 1;
             $rowHeader['zmiana'.$i.'_m_k'] = $minuta;
         }
         $firstEvent = $events[0];
@@ -289,10 +294,20 @@ class Calendar extends Controller
     }
 
     public function generateOdt($data) {
+
+
+        $szablonDef = 'Szablony/szablon.skoczow.zawisle.odt';
+        $szablonDed = 'Szablony/szablon.skoczow.zawisle_'.$this->iloscZmian.'.odt';
+        if (file_exists($szablonDed)) {
+            $szablonFileName = $szablonDed;
+        } else {
+            $szablonFileName = $szablonDef;
+        }
+
         $filename = md5(time());
         $wydruk = new GeneratorDom();
         $wydruk->ustawNazweWyjsciowegoPliku($filename);
-        $wydruk->generuj($data, 'Szablony/szablon.skoczow.zawisle.odt');
+        $wydruk->generuj($data, $szablonFileName);
 
         return 'Upload/'.$filename.'.odt';
     }
