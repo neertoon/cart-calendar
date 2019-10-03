@@ -20,7 +20,7 @@ class Calendar extends Controller
         session_start();
         $this->application_redirect_url = 'http://'.$_SERVER['HTTP_HOST'].'/index.php/cart';
         $this->application_id = $_ENV['CALENDAR_APP_ID'];
-        //TEST? test test test test test test test test test
+        //TEST? test test test test test test test test test jeszcze jeden leci
         /**
          * Posprzątaj
          * Refactor
