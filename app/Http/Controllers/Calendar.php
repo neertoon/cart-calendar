@@ -19,7 +19,7 @@ class Calendar extends Controller
     public function __construct() {
         session_start();
         $this->application_redirect_url = 'http://'.$_SERVER['HTTP_HOST'].'/index.php/cart';
-        $this->application_id = $_ENV['CALENDAR_APP_ID'];
+        $this->application_id = $_ENV['CALENDAR_APP_ID'] ?? '';
         //TEST? test test test test test test test test test jeszcze jeden leci
         /**
          * Posprzątaj
@@ -36,7 +36,7 @@ class Calendar extends Controller
         if (empty($_SESSION['token'])) {
             $linkToSignIn  = 'https://accounts.google.com/o/oauth2/auth?scope=' . urlencode('https://www.googleapis.com/auth/calendar').' '.urlencode('https://www.googleapis.com/auth/userinfo.profile') . ' email&redirect_uri=' . urlencode($this->application_redirect_url) . '&response_type=code&client_id=' . $this->application_id . '&access_type=online';
 
-            echo view('login', ['link' => $linkToSignIn]);
+            echo view('login', ['link' => $linkToSignIn, 'dateModified' => date("Y-m-d H:i:s", filemtime(__FILE__))]);
         } else {
             $this->index();
         }
@@ -81,6 +81,7 @@ class Calendar extends Controller
         echo view('welcome', [
             'monthYearNow' => $this->getStartDateTimeToGenerate(),
             'userName' => $userData['name'],
+            'dateModified' => date("Y-m-d H:i:s", filemtime(__FILE__)),
         ]);
     }
 
@@ -463,7 +464,7 @@ class Calendar extends Controller
 //        $wydruk->ustawNazweWyjsciowegoPliku('szablon_out.odt');
 //        return $wydruk->generuj($dane, 'szablon.odt');
 
-        echo view('login', ['name' => 'James']);
+        echo view('login', ['link' => 'http://www.google.pl', 'dateModified' => date("Y-m-d H:i:s", filemtime(__FILE__))]);
     }
 
     protected function showView($data) {

@@ -96,6 +96,9 @@
             <div class="col-sm-12 card" style="margin-top: 10px">
                 <a type="button" class="btn btn-primary" href="{{$link}}">Zaloguj Się</a>
             </div>
+            <div class="card" style="text-align: center">
+                {{$dateModified ?? ''}}
+            </div>
         </div>
 
     </body>

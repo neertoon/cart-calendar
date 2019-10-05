@@ -29,3 +29,5 @@ Route::get('/generate', 'Calendar@generateOdt');
 
 Route::get('/download', 'Calendar@generateAndDownload');
 
+Route::get('/testlogin', 'Calendar@test');
+

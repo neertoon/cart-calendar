@@ -106,6 +106,9 @@
             <div class="card">
                 <a type="button" class="btn btn-primary" href="/index.php/logout" style="color: white">Wyloguj</a>
             </div>
+            <div class="card" style="text-align: center">
+                {{$dateModified ?? ''}}
+            </div>
         </div>
 
     </body>
