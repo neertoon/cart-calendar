@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\CalendarClient;
+use App\Services\GoogleCalendarData;
 use App\Services\JwToken;
 use App\Services\Wydruk\GeneratorDom;
 use App\User;
@@ -84,7 +85,7 @@ class Calendar extends Controller
             'dateModified' => date("Y-m-d H:i:s", filemtime(__FILE__)),
         ]);
     }
-
+/*
     public function getEvents() {
         $googleClient = new CalendarClient();
         $client = $googleClient->get();
@@ -111,11 +112,12 @@ class Calendar extends Controller
 
         return $events;
     }
-
+*/
     public function generateAndDownload() {
-        $events = $this->getEvents();
+        $calendarEventObj = new GoogleCalendarData();
+        $data = $calendarEventObj->getEvents();
 
-        $data = $this->prepareDataTab($events);
+//        $data = $this->prepareDataTab($events);
 
         $plik = $this->generateOdt($data);
 
@@ -137,11 +139,11 @@ class Calendar extends Controller
         readfile($plik);
         exit;
     }
-
+/*
     public function prepareDataTab($eventsObj) {
         $events = [];
         $shifts = [];
-        /** @var \Google_Service_Calendar_Event $event */
+        /** @var \Google_Service_Calendar_Event $event
         foreach ($eventsObj as $event) {
             $start = $event->getStart()->getDateTime();
             $end = $event->getEnd()->getDateTime();
@@ -220,7 +222,8 @@ class Calendar extends Controller
 
         return $data;
     }
-
+*/
+/*
     protected function getDayNameInPoland($dayNumber) {
         $numberToDay = [
             1 => 'Poniedziałek',
@@ -274,6 +277,7 @@ class Calendar extends Controller
         return $numberToMonth[$monthNumber];
 
     }
+*/
 
     public function getStartDateTimeToGenerate() {
         $month = date("m");
@@ -433,7 +437,7 @@ class Calendar extends Controller
 
         return $dane;
     }
-
+/*
     public function getDateToFilter($monthYear) {
         list($month, $year) = explode('-', $monthYear);
         $nextMont = $month == 12 ? 1 : $month + 1;
@@ -452,6 +456,7 @@ class Calendar extends Controller
 
         return [$isoStart, $isoEnd];
     }
+*/
 
     public function test() {
 
