@@ -117,6 +117,8 @@ class Calendar extends Controller
         $calendarEventObj = new GoogleCalendarData();
         $data = $calendarEventObj->getEvents();
 
+        file_put_contents('calendar_data_plus.txt', var_export($data, true));
+
 //        $data = $this->prepareDataTab($events);
 
         $plik = $this->generateOdt($data);
@@ -300,6 +302,7 @@ class Calendar extends Controller
 
     public function generateOdt($data) {
 
+        file_put_contents('ilosc_zmian.txt', var_export($this->iloscZmian, true));
 
         $szablonDef = 'Szablony/szablon.skoczow.zawisle.odt';
         $szablonDed = 'Szablony/szablon.skoczow.zawisle_'.$this->iloscZmian.'.odt';
