@@ -39,7 +39,11 @@ class GoogleCalendarData implements CalendarDataIfc
         return $this->prepareDataTab($events);
     }
 
-    public function getDateToFilter($monthYear) {
+    public function getShiftsNumber() {
+        return $this->iloscZmian;
+    }
+
+    protected function getDateToFilter($monthYear) {
         list($month, $year) = explode('-', $monthYear);
         $nextMont = $month == 12 ? 1 : $month + 1;
         $nextYear = $month == 12 ? $year + 1 : $year;
@@ -58,7 +62,7 @@ class GoogleCalendarData implements CalendarDataIfc
         return [$isoStart, $isoEnd];
     }
 
-    public function prepareDataTab($eventsObj) {
+    protected function prepareDataTab($eventsObj) {
         $events = [];
         $shifts = [];
         /** @var \Google_Service_Calendar_Event $event */
