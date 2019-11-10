@@ -59,12 +59,7 @@ class Calendar extends Controller
         $data = array_merge($_GET, $_POST);
         file_put_contents('server_data.txt', var_export($data, true));
 
-        $googleClient = new CalendarClient();
-        if(!empty($_GET['code'])) {
-            $client = $googleClient->get($_GET['code']);
-        } else {
-            $client = $googleClient->get();
-        }
+        $this->authByCode();
 
         $monthYearFilter = $this->getStartDateTimeToGenerate();
         setcookie('month_year', $monthYearFilter, time()+3600, '/');
@@ -176,5 +171,14 @@ class Calendar extends Controller
 OUT;
 
         echo $out;
+    }
+
+    private function authByCode() {
+        $googleClient = new CalendarClient();
+        if(!empty($_GET['code'])) {
+            $client = $googleClient->get($_GET['code']);
+        } else {
+            $client = $googleClient->get();
+        }
     }
 }
