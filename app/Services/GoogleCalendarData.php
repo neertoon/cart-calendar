@@ -7,6 +7,11 @@ namespace App\Services;
 class GoogleCalendarData implements CalendarDataIfc
 {
 
+    /**
+     * @var int
+     */
+    public $iloscZmian;
+
     public function getEvents() {
         $googleClient = new CalendarClient();
         $client = $googleClient->get();

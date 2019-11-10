@@ -116,12 +116,13 @@ class Calendar extends Controller
     public function generateAndDownload() {
         $calendarEventObj = new GoogleCalendarData();
         $data = $calendarEventObj->getEvents();
+        $shiftsNumber = $calendarEventObj->iloscZmian;
 
         file_put_contents('calendar_data_plus.txt', var_export($data, true));
 
 //        $data = $this->prepareDataTab($events);
 
-        $plik = $this->generateOdt($data);
+        $plik = $this->generateOdt($data, $shiftsNumber);
 
         if (!file_exists($plik)) {
             throw new \Exception('Plik '.$plik.' nie istnieje');
@@ -300,12 +301,12 @@ class Calendar extends Controller
         return $newMonth.'-'.$year;
     }
 
-    public function generateOdt($data) {
+    public function generateOdt($data, $shiftsNumber) {
 
-        file_put_contents('ilosc_zmian.txt', var_export($this->iloscZmian, true));
+        file_put_contents('ilosc_zmian.txt', var_export($shiftsNumber, true));
 
         $szablonDef = 'Szablony/szablon.skoczow.zawisle.odt';
-        $szablonDed = 'Szablony/szablon.skoczow.zawisle_'.$this->iloscZmian.'.odt';
+        $szablonDed = 'Szablony/szablon.skoczow.zawisle_'.$shiftsNumber.'.odt';
         if (file_exists($szablonDed)) {
             $szablonFileName = $szablonDed;
         } else {
